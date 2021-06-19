@@ -86,8 +86,8 @@ void write_callback(Device *device, Param *param, const param_val_t val, void *p
     param->updateAndReport(val);
     digitalWrite(ploadEnable, loadEnable);
   }
-  else if (strcmp(param_name, "Max Delta") == 0) {
-    Serial.printf("Received value = %2.2f for %s - %s\n", val.val.f, device_name, param_name);
+  else if (strcmp(param_name, "Max Delta (mV)") == 0) {
+    Serial.printf("Received value = %d for %s - %s\n", val.val.i, device_name, param_name);
     maxDelta = val.val.i;
     param->updateAndReport(val);
   }
@@ -120,16 +120,16 @@ void setup()
   battery.addParam(voltageParam);
   battery.assignPrimaryParam(battery.getParamByName("Voltage (V)"));
 
-  Param deltaParam("Delta (mV)", "custom.param.voltage", value((int)DEFAULT_MAX_DELTA - 10), PROP_FLAG_READ );
+  Param deltaParam("Delta (mV)", "custom.param.dvoltage", value((int)DEFAULT_MAX_DELTA - 10), PROP_FLAG_READ );
   battery.addParam(deltaParam);
 
-  Param lowVoltageParam("Low Voltage", "custom.param.voltage", value((float)DEFAULT_MIN_VOLTAGE), PROP_FLAG_WRITE );
+  Param lowVoltageParam("Low Voltage", "custom.param.lvoltage", value((float)DEFAULT_MIN_VOLTAGE), PROP_FLAG_WRITE );
   battery.addParam(lowVoltageParam);
 
-  Param highVoltageParam("High Voltage", "custom.param.voltage", value((float)DEFAULT_MAX_VOLTAGE), PROP_FLAG_WRITE );
+  Param highVoltageParam("High Voltage", "custom.param.hvoltage", value((float)DEFAULT_MAX_VOLTAGE), PROP_FLAG_WRITE );
   battery.addParam(highVoltageParam);
 
-  Param maxDeltaParam("Max Delta (mV)", "custom.param.voltage", value((int)DEFAULT_MAX_DELTA), PROP_FLAG_WRITE );
+  Param maxDeltaParam("Max Delta (mV)", "custom.param.maxdelta", value((int)DEFAULT_MAX_DELTA), PROP_FLAG_WRITE );
   battery.addParam(maxDeltaParam);
 
   /*
